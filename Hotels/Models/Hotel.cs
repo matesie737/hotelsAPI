@@ -1,8 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+using Hotels.DTOs;
+
 namespace Hotels.Models
 {
     public class Hotel
     {
         public Guid Id { get; set; }
+        [Required]
         public required string Name { get; set; }
         public required string Address { get; set; }
         public required string City { get; set; }
@@ -13,4 +17,5 @@ namespace Hotels.Models
         public List<Room> Rooms { get; set; }
 
     }
+
 }
