@@ -5,6 +5,10 @@ namespace Hotels.Services
 {
     public class HotelService : IHotelService
     {
+        private readonly IHotelRepository _hotelRepository;
+        public HotelService(IHotelRepository hotelRepository){
+            _hotelRepository = hotelRepository;
+        }
         public List<HotelDTO> GetHotels()
         {
             throw new NotImplementedException();
