@@ -9,7 +9,7 @@ namespace Hotels.Interfaces
         Hotel GetHotel(Guid id);
         Hotel GetHotelByReservationId(Guid id);
         Hotel GetHotelByRoomId(Guid id);
-        Hotel AddHotel(Hotel hotel);
+        Guid AddHotel(Hotel hotel);
         Hotel UpdateHotel(Hotel hotel);
         void DeleteHotel(Guid id);
     }

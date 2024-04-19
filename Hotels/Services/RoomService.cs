@@ -1,3 +1,4 @@
+using AutoMapper;
 using Hotels.DTOs;
 using Hotels.Interfaces;
 
@@ -5,10 +6,12 @@ namespace Hotels.Services
 {
     public class RoomService : IRoomService
     {
+        private readonly IMapper _mapper;
         private readonly IRoomRepository _roomRepository;
-        public RoomService(IRoomRepository roomRepository)
+        public RoomService(IRoomRepository roomRepository, IMapper mapper)
         {
             _roomRepository = roomRepository;
+            _mapper = mapper;
         }
         public List<RoomDTO> GetRooms()
         {

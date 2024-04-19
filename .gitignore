@@ -5,6 +5,8 @@
 
 # dotenv files
 .env
+Hotels/appsettingssecret.json
+Hotels/Migrations
 
 # User-specific files
 *.rsuser

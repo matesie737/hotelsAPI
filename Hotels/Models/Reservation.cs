@@ -10,5 +10,7 @@ namespace Hotels.Models
         public bool IsConfirmed { get; set; }
         public Guid RoomId { get; set; }
         public Room Room { get; set; }
+        public Guid HotelId {get; set;}
+        public Hotel Hotel {get; set;}
     }
 }

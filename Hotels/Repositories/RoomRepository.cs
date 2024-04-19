@@ -1,3 +1,5 @@
+using Hotels.Database;
+using Hotels.DTOs;
 using Hotels.Interfaces;
 using Hotels.Models;
 
@@ -5,9 +7,15 @@ namespace Hotels.Repositories
 {
     public class RoomRepository : IRoomRepository
     {
+        private readonly AppDbContext _context;
+        public RoomRepository(AppDbContext context)
+        {
+            _context = context;
+        }
         public Guid AddRoom(Room room)
         {
-            throw new NotImplementedException();
+            _context.Rooms.Add(room);
+            return room.Id;
         }
 
         public void DeleteRoom(Guid id)

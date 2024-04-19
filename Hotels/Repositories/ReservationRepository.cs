@@ -1,3 +1,4 @@
+using Hotels.Database;
 using Hotels.Interfaces;
 using Hotels.Models;
 
@@ -5,6 +6,11 @@ namespace Hotels.Repositories
 {
     public class ReservationRepository : IReservationRepository
     {
+        private readonly AppDbContext _context;
+        public ReservationRepository(AppDbContext context)
+        {
+            _context = context;
+        }
         public Guid AddReservation(Reservation reservation)
         {
             throw new NotImplementedException();
