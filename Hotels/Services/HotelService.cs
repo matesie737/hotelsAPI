@@ -14,16 +14,16 @@ namespace Hotels.Services
             _hotelRepository = hotelRepository;
             _mapper = mapper;
         }
-        public List<HotelDTO> GetHotels()
+        public List<HotelDTO>? GetHotels()
         {
             var hotels = _hotelRepository.GetHotels();
-            if(hotels is not null)
+            if (hotels is not null)
             {
                 return _mapper.Map<List<HotelDTO>>(hotels);
             }
             return null;
         }
-        public HotelDTO GetHotel(Guid id)
+        public HotelDTO? GetHotel(Guid id)
         {
             var hotel = _hotelRepository.GetHotel(id);
             if (hotel is not null)
@@ -32,7 +32,7 @@ namespace Hotels.Services
             }
             return null;
         }
-        public HotelDTO GetHotelByReservationId(Guid id)
+        public HotelDTO? GetHotelByReservationId(Guid id)
         {
 
             var hotel = _hotelRepository.GetHotelByReservationId(id);
@@ -42,7 +42,7 @@ namespace Hotels.Services
             }
             return null;
         }
-        public HotelDTO GetHotelByRoomId(Guid id)
+        public HotelDTO? GetHotelByRoomId(Guid id)
         {
 
             var hotel = _hotelRepository.GetHotelByRoomId(id);
@@ -52,18 +52,21 @@ namespace Hotels.Services
             }
             return null;
         }
-        public Guid AddHotel(CreateHotelDTO hotel)
+        public HotelDTO? AddHotel(CreateHotelDTO hotel)
         {
             var hotelEntity = _mapper.Map<Hotel>(hotel);
-            return _hotelRepository.AddHotel(hotelEntity);
+            var hotelData = _hotelRepository.AddHotel(hotelEntity);
+            if (hotelData is not null)
+                return _mapper.Map<HotelDTO>(hotelData);
+            return null;
         }
-        public HotelDTO UpdateHotel(UpdateHotelDTO hotel)
+        public HotelDTO? UpdateHotel(UpdateHotelDTO hotel)
         {
             var hotelEntity = _mapper.Map<Hotel>(hotel);
-            var hotelResponse = _hotelRepository.UpdateHotel(hotelEntity);
-            if(hotelResponse is not null)
+            var hotelData = _hotelRepository.UpdateHotel(hotelEntity);
+            if (hotelData is not null)
             {
-                return _mapper.Map<HotelDTO>(hotelResponse);
+                return _mapper.Map<HotelDTO>(hotelData);
             }
             return null;
         }

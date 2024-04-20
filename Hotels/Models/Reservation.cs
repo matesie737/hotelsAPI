@@ -9,8 +9,8 @@ namespace Hotels.Models
         public decimal TotalPrice { get; set; }
         public bool IsConfirmed { get; set; }
         public Guid RoomId { get; set; }
-        public Room Room { get; set; }
+        public required Room Room { get; set; }
         public Guid HotelId {get; set;}
-        public Hotel Hotel {get; set;}
+        public required Hotel Hotel {get; set;}
     }
 }

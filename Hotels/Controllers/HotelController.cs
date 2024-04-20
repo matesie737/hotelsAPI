@@ -21,7 +21,7 @@ namespace Hotels.Controller
         public ActionResult<IEnumerable<HotelDTO>> Gethotels()
         {
             var data = _hotelService.GetHotels();
-            if(data is null || data.Count is 0) return NoContent();
+            if (data is null || data.Count is 0) return NoContent();
 
             return Ok(data);
         }
@@ -68,23 +68,30 @@ namespace Hotels.Controller
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<HotelDTO> PostHotel([FromBody] CreateHotelDTO data)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<HotelDTO> PostHotel([FromBody] CreateHotelDTO _data)
         {
             if (!ModelState.IsValid) return BadRequest();
-            _hotelService.AddHotel(data);
+            var data = _hotelService.AddHotel(_data);
 
-            return Created();
+            if (data is not null)
+                return CreatedAtAction(nameof(GetHotelById), new { id = data.Id }, data);
+            return StatusCode(500, "Internal Server Error");
+
         }
 
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<HotelDTO> UpdateHotel([FromBody] UpdateHotelDTO data)
+        public ActionResult<HotelDTO> UpdateHotel([FromBody] UpdateHotelDTO _data)
         {
             if (!ModelState.IsValid) return BadRequest();
-            _hotelService.UpdateHotel(data);
+            var data = _hotelService.UpdateHotel(_data);
 
-            return Ok(); 
+            if (data is not null)
+                return Ok(data);
+
+            return StatusCode(500, "Internal Server Error");
         }
 
         [HttpDelete("{id:guid}")]
@@ -94,7 +101,7 @@ namespace Hotels.Controller
         {
             if (id.Equals("0") || id.Equals("")) return BadRequest();
             _hotelService.DeleteHotel(id);
-            
+
             return NoContent();
         }
 

@@ -10,7 +10,7 @@ namespace Hotels.Models
         public decimal PricePerNight { get; set; }
         public bool IsAvailable { get; set; }
         public Guid HotelId { get; set; }
-        public Hotel Hotel { get; set; }
-        public List<Reservation> Reservations { get; set; }
+        public required Hotel Hotel { get; set; }
+        public List<Reservation>? Reservations { get; set; }
     }
 }

@@ -7,22 +7,26 @@ namespace Hotels.Repositories
     public class HotelRepository : IHotelRepository
     {
         private readonly AppDbContext _context;
+
         public HotelRepository(AppDbContext context)
         {
             _context = context;
         }
-        public Guid AddHotel(Hotel hotel)
+        
+        public Hotel? AddHotel(Hotel hotel)
         {
             _context.Hotels.Add(hotel);
             _context.SaveChanges();
 
-            Console.WriteLine(hotel);
-            return hotel.Id;
+            var HotelData = _context.Hotels.FirstOrDefault(h => h.Id == hotel.Id);
+
+            return HotelData;
+
         }
 
         public void DeleteHotel(Guid id)
         {
-            var hotel = _context.Hotels.Find(id);
+            var hotel = _context.Hotels.FirstOrDefault(h => h.Id == id);
             if (hotel is not null)
             {
                 _context.Hotels.Remove(hotel);
@@ -30,32 +34,32 @@ namespace Hotels.Repositories
             }
         }
 
-        public Hotel GetHotel(Guid id)
+        public Hotel? GetHotel(Guid id)
         {
             var hotel = _context.Hotels.FirstOrDefault(h => h.Id == id);
             return hotel;
         }
 
-        public Hotel GetHotelByReservationId(Guid id)
+        public Hotel? GetHotelByReservationId(Guid id)
         {
             var reservation = _context.Reservations.FirstOrDefault(r => r.Id == id);
-            if (reservation is not null)
-            {
-                var hotel = _context.Hotels.FirstOrDefault(h => h.Id == reservation.HotelId);
-                return hotel;
-            }
-            return null;
+            if (reservation is null)
+                return null;
+
+            var hotel = _context.Hotels.FirstOrDefault(h => h.Id == reservation.HotelId);
+            return hotel;
+
         }
 
-        public Hotel GetHotelByRoomId(Guid id)
+        public Hotel? GetHotelByRoomId(Guid id)
         {
             var room = _context.Rooms.FirstOrDefault(r => r.Id == id);
-            if (room is not null)
-            {
-                var hotel = _context.Hotels.FirstOrDefault(h => h.Id == room.HotelId);
-                return hotel;
-            }
-            return null;
+            if (room is null)
+                return null;
+
+            var hotel = _context.Hotels.FirstOrDefault(h => h.Id == room.HotelId);
+            return hotel;
+
         }
 
         public IQueryable<Hotel> GetHotels()
@@ -64,17 +68,16 @@ namespace Hotels.Repositories
             return hotels;
         }
 
-        public Hotel UpdateHotel(Hotel hotel)
+        public Hotel? UpdateHotel(Hotel hotel)
         {
             var dbHotel = _context.Hotels.FirstOrDefault(h => h.Id == hotel.Id);
-            if (hotel is not null)
-            {
-                _context.Entry(dbHotel).CurrentValues.SetValues(hotel);
-                _context.SaveChanges();
+            if (dbHotel is null) return null;
 
-                return dbHotel;
-            }
-            return null;
+            _context.Entry(dbHotel).CurrentValues.SetValues(hotel);
+            _context.SaveChanges();
+
+            var hotelData = _context.Hotels.FirstOrDefault(h => h.Id == dbHotel.Id);
+            return hotelData;
 
         }
     }

@@ -22,8 +22,6 @@ namespace Hotels.DTOs
         public string Country { get; set; } = "";
         public string Description { get; set; } = "";
         public int StarRating { get; set; }
-        public List<CreateReservationDTO>? Reservations { get; set; } = [];
-        public List<CreateRoomDTO>? Rooms { get; set; } = [];
     }
 
     public class UpdateHotelDTO

@@ -11,8 +11,6 @@ namespace Hotels.Mapping
         {
             CreateMap<Hotel, HotelDTO>();
             CreateMap<CreateHotelDTO, Hotel>()
-                .ForMember(dest => dest.Reservations, opt => opt.MapFrom(src => src.Reservations ?? new List<CreateReservationDTO>()))
-                .ForMember(dest => dest.Rooms, opt => opt.MapFrom(src => src.Rooms ?? new List<CreateRoomDTO>()))
                 .ReverseMap();
             CreateMap<UpdateHotelDTO, Hotel>().ReverseMap();
 
@@ -21,8 +19,7 @@ namespace Hotels.Mapping
             CreateMap<UpdateReservationDTO, Reservation>().ReverseMap();
 
             CreateMap<Room, RoomDTO>();
-            CreateMap<CreateRoomDTO, Room>()
-                .ForMember(dest => dest.Reservations, opt => opt.MapFrom(src => src.Reservations ?? new List<CreateReservationDTO>()));
+            CreateMap<CreateRoomDTO, Room>();
             CreateMap<UpdateRoomDTO, Room>().ReverseMap();
         }
     }

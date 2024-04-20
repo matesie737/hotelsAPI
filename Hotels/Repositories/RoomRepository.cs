@@ -1,5 +1,4 @@
 using Hotels.Database;
-using Hotels.DTOs;
 using Hotels.Interfaces;
 using Hotels.Models;
 
@@ -8,44 +7,74 @@ namespace Hotels.Repositories
     public class RoomRepository : IRoomRepository
     {
         private readonly AppDbContext _context;
+
         public RoomRepository(AppDbContext context)
         {
             _context = context;
         }
-        public Guid AddRoom(Room room)
+
+        public Room? AddRoom(Room room)
         {
             _context.Rooms.Add(room);
-            return room.Id;
+            _context.SaveChanges();
+
+            var roomData = _context.Rooms.FirstOrDefault(r => r.Id == room.Id);
+
+            return roomData;
         }
 
         public void DeleteRoom(Guid id)
         {
-            throw new NotImplementedException();
+            var room = _context.Rooms.FirstOrDefault(r => r.Id == id);
+            if (room is not null)
+            {
+                _context.Rooms.Remove(room);
+                _context.SaveChanges();
+            }
         }
 
-        public Room GetRoom(Guid id)
+        public Room? GetRoom(Guid id)
         {
-            throw new NotImplementedException();
+            var room = _context.Rooms.FirstOrDefault(r => r.Id == id);
+            return room;
         }
 
-        public Room GetRoomByReservationId(Guid id)
+        public Room? GetRoomByReservationId(Guid id)
         {
-            throw new NotImplementedException();
+            var reservation = _context.Reservations.FirstOrDefault(r => r.Id == id);
+            if (reservation is null)
+                return null;
+
+            var room = _context.Rooms.FirstOrDefault(r => r.Id == reservation.RoomId);
+            return room;
         }
 
         public IQueryable<Room> GetRooms()
         {
-            throw new NotImplementedException();
+            var rooms = _context.Rooms;
+            return rooms;
         }
 
-        public IQueryable<Room> GetRoomsByHotelId(Guid hotelId)
+        public IQueryable<Room>? GetRoomsByHotelId(Guid hotelId)
         {
-            throw new NotImplementedException();
+
+            var hotel = _context.Hotels.FirstOrDefault(h => h.Id == hotelId);
+            if (hotel is null) return null;
+
+            var rooms = _context.Rooms.Where(r => r.HotelId == hotelId);
+            return rooms;
         }
 
-        public Room UpdateRoom(Room room)
+        public Room? UpdateRoom(Room room)
         {
-            throw new NotImplementedException();
+            var dbRoom = _context.Rooms.FirstOrDefault(r => r.Id == room.Id);
+            if (dbRoom is null) return null;
+
+            _context.Entry(dbRoom).CurrentValues.SetValues(room);
+            _context.SaveChanges();
+
+            var roomData = _context.Rooms.FirstOrDefault(r => r.Id == dbRoom.Id);
+            return roomData;
         }
     }
 }

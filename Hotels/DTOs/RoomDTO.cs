@@ -12,7 +12,6 @@ namespace Hotels.DTOs
         public decimal PricePerNight { get; set; }
         public bool IsAvailable { get; set; }
         public Guid HotelId { get; set; }
-        public List<ReservationDTO>? Reservations { get; set; }
     }
 
     public class CreateRoomDTO
@@ -22,7 +21,6 @@ namespace Hotels.DTOs
         public decimal PricePerNight { get; set; }
         public bool IsAvailable { get; set; }
         public Guid HotelId { get; set; }
-        public List<CreateReservationDTO>? Reservations { get; set; }
     }
 
     public class UpdateRoomDTO
@@ -33,6 +31,5 @@ namespace Hotels.DTOs
         public decimal PricePerNight { get; set; }
         public bool IsAvailable { get; set; }
         public Guid HotelId { get; set; }
-        public List<ReservationDTO>? Reservations { get; set; }
     }
 }
