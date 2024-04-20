@@ -32,8 +32,9 @@ namespace Hotels.Controller
         public ActionResult<HotelDTO> GetReservationById(Guid id)
         {
             if (id.Equals("0") || id.Equals("")) return BadRequest();
+            
             var data = _reservationService.GetReservation(id);
-            if (data is null) return NotFound();
+            if (data is null) return NotFound("Reservation not found");
 
             return Ok(data);
         }
@@ -42,11 +43,12 @@ namespace Hotels.Controller
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<IEnumerable<ReservationDTO>> GetReservationByHotelId(Guid id)
+        public ActionResult<IEnumerable<ReservationDTO>> GetReservationsByHotelId(Guid id)
         {
             if (id.Equals("0") || id.Equals("")) return BadRequest();
+
             var data = _reservationService.GetReservationsByHotelId(id);
-            if (data is null) return NotFound();
+            if (data is null) return NotFound("Hotel not found");
 
             return Ok(data);
         }
@@ -56,11 +58,12 @@ namespace Hotels.Controller
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<IEnumerable<ReservationDTO>> GetReservationByRoomId(Guid id)
+        public ActionResult<IEnumerable<ReservationDTO>> GetReservationsByRoomId(Guid id)
         {
             if (id.Equals("0") || id.Equals("")) return BadRequest();
+
             var data = _reservationService.GetReservationsByRoomId(id);
-            if (data is null) return NotFound();
+            if (data is null) return NotFound("Room not found");
 
             return Ok(data);
         }
@@ -69,23 +72,36 @@ namespace Hotels.Controller
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<HotelDTO> PostReservation([FromBody] CreateReservationDTO data)
+        public ActionResult<ReservationDTO> PostReservation([FromBody] CreateReservationDTO _data)
         {
             if (!ModelState.IsValid) return BadRequest();
-            _reservationService.AddReservation(data);
 
-            return Created();
+            var data = _reservationService.AddReservation(_data);
+
+            if (data is not null)
+                return CreatedAtAction(nameof(GetReservationById), new { id = data.Id }, data);
+
+            return StatusCode(500, "Internal Server Error");
+
         }
 
         [HttpPatch]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<ReservationDTO> UpdateReservation([FromBody] UpdateReservationDTO data)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<ReservationDTO> UpdateReservation([FromBody] UpdateReservationDTO _data)
         {
             if (!ModelState.IsValid) return BadRequest();
-            _reservationService.UpdateReservation(data);
 
-            return Ok();
+            var data = _reservationService.UpdateReservation(_data);
+
+            if(data is null)
+                return StatusCode(500, "Internal Server Error");
+
+            if (data.Id == Guid.Empty)
+                return NotFound();
+
+            return Ok(data);
         }
 
         [HttpDelete("{id:guid}")]
@@ -94,6 +110,7 @@ namespace Hotels.Controller
         public IActionResult DeleteHotel(Guid id)
         {
             if (id.Equals("0") || id.Equals("")) return BadRequest();
+
             _reservationService.DeleteReservation(id);
 
             return NoContent();

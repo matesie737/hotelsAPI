@@ -1,6 +1,7 @@
 using Hotels.Database;
 using Hotels.Interfaces;
 using Hotels.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hotels.Repositories
 {
@@ -35,7 +36,7 @@ namespace Hotels.Repositories
 
         public Reservation? GetReservation(Guid id)
         {
-            var reservation = _context.Reservations.FirstOrDefault(r => r.Id == id);
+            var reservation = _context.Reservations.Include(r => r.Hotel).Include(r => r.Room).FirstOrDefault(r => r.Id == id);
             return reservation;
         }
 

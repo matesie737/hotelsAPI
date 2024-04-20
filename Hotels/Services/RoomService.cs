@@ -1,6 +1,7 @@
 using AutoMapper;
 using Hotels.DTOs;
 using Hotels.Interfaces;
+using Hotels.Models;
 
 namespace Hotels.Services
 {
@@ -8,38 +9,84 @@ namespace Hotels.Services
     {
         private readonly IMapper _mapper;
         private readonly IRoomRepository _roomRepository;
+
+
         public RoomService(IRoomRepository roomRepository, IMapper mapper)
         {
             _roomRepository = roomRepository;
             _mapper = mapper;
         }
-        public List<RoomDTO> GetRooms()
+
+        public List<RoomDTO>? GetRooms()
         {
-            throw new NotImplementedException();
+            var rooms = _roomRepository.GetRooms();
+
+            if (rooms is null)
+                return null;
+
+            return _mapper.Map<List<RoomDTO>>(rooms);
+
         }
-        public RoomDTO GetRoom(Guid id)
+
+        public RoomExDTO? GetRoom(Guid id)
         {
-            throw new NotImplementedException();
+            var room = _roomRepository.GetRoom(id);
+
+            if (room is null)
+                return null;
+
+            return _mapper.Map<RoomExDTO>(room);
         }
-        public RoomDTO GetRoomByReservationId(Guid id)
+
+        public RoomExDTO? GetRoomByReservationId(Guid reservationId)
         {
-            throw new NotImplementedException();
+            var room = _roomRepository.GetRoomByReservationId(reservationId);
+
+            if (room is null)
+                return null;
+
+            return _mapper.Map<RoomExDTO>(room);
         }
-        public List<RoomDTO> GetRoomsByHotelId(Guid hotelId)
+
+        public List<RoomDTO>? GetRoomsByHotelId(Guid hotelId)
         {
-            throw new NotImplementedException();
+            var room = _roomRepository.GetRoomsByHotelId(hotelId);
+
+            if (room is null)
+                return null;
+
+            return _mapper.Map<List<RoomDTO>>(room);
         }
-        public Guid AddRoom(CreateRoomDTO room)
+
+        public RoomDTO? AddRoom(CreateRoomDTO room)
         {
-            throw new NotImplementedException();
+            var roomEntity = _mapper.Map<Room>(room);
+            var roomData = _roomRepository.AddRoom(roomEntity);
+
+            if (roomData is null)
+                return null;
+
+            return _mapper.Map<RoomDTO>(roomData);
         }
-        public RoomDTO UpdateRoom(UpdateRoomDTO room)
+
+        public RoomDTO? UpdateRoom(UpdateRoomDTO room)
         {
-            throw new NotImplementedException();
+            var roomCheck = _roomRepository.GetRoom(room.Id);
+            if (roomCheck is null)
+                return new RoomDTO() { };
+
+            var roomEntity = _mapper.Map<Room>(room);
+            var roomData = _roomRepository.UpdateRoom(roomEntity);
+
+            if (roomData is null)
+                return null;
+
+            return _mapper.Map<RoomDTO>(roomData);
         }
+
         public void DeleteRoom(Guid id)
         {
-            throw new NotImplementedException();
+            _roomRepository.DeleteRoom(id);
         }
     }
 }
