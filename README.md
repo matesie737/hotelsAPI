@@ -140,7 +140,7 @@ to migrate database use
 
 ```sh
 $ dotnet ef migrations add initialMigration
-$ dotnet ef update
+$ dotnet ef database update
 ```
 
 
