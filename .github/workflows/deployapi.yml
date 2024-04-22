@@ -1,0 +1,35 @@
+# github action to deploy hotels api to azure
+
+name: Deploy Hotels API
+
+on: 
+  push:
+
+env: 
+  AZURE_WEBAPP_NAME: "app-hotels-api"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checout@v3
+      - name: Setup .Net Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      
+      - name: Install dependencies
+        run: dotnet restore ./Hotels/Hotels.csproj
+
+      - name: Build
+        run: dotnet build ./Hotels/Hotels.csproj --configuration Relese --no-restore
+
+      - name: Publish
+        run: dotnet publish ./Hotels/Hotels.csproj --configuration Release --output ./publish
+
+      - name: Deploy to Azure
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.API_PUBLISH_SECRET }}
+          package: ./publish
