@@ -30,14 +30,14 @@ builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.ConfigObject.AdditionalItems.Add("operationsSorter", "method");
     });
-}
+//}
 
 app.UseHttpsRedirection();
 app.MapControllers();
