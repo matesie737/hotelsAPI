@@ -2,8 +2,7 @@
 
 name: Deploy Hotels API
 
-on:
-  push:
+on: [push, workflow_dispatch]
 
 env:
   AZURE_WEBAPP_NAME: "app-hotels-api"
