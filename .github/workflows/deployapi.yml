@@ -30,7 +30,7 @@ jobs:
       - name: App Settings Variable Substitution
         uses: microsoft/variable-substitution@v1
         with:
-          files: '${{env.DOTNET_ROOT}}\Hotels\appsettings.json'
+          files: './Hotels/appsettings.json'
         env:
           ConnectionStrings.WebApiDatabase: ${{ secrets.CONNECTION_STRING }}
 
