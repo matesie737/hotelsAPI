@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettingssecret.json");
+builder.Configuration.AddJsonFile("appsettingssecret.json", true);
 var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase") ??
                        throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<AppDbContext>(options =>
