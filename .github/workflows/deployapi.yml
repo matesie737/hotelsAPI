@@ -2,11 +2,11 @@
 
 name: Deploy Hotels API
 
-on: 
+on:
   push:
 
-env: 
-  AZURE_WEBAPP_NAME: "app-hotels-api"
+env:
+  AZURE_WEBAPP_NAME: "hotels-api-app"
 
 jobs:
   build:
@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
-      
+
       - name: Install dependencies
         run: dotnet restore ./Hotels/Hotels.csproj
 
@@ -29,7 +29,7 @@ jobs:
 
       - name: Deploy to Azure
         uses: azure/webapps-deploy@v2
-        with: 
+        with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.API_PUBLISH_SECRET }}
           package: ./publish
