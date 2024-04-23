@@ -6,6 +6,7 @@
 # dotenv files
 .env
 Hotels/appsettingssecret.json
+Hotels/appsettings.Development.json
 Hotels/Migrations
 
 # User-specific files
