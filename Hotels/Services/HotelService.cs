@@ -24,7 +24,6 @@ namespace Hotels.Services
                 return null;
 
             return _mapper.Map<List<HotelDTO>>(hotels);
-
         }
 
         public HotelExDTO? GetHotel(Guid id)
@@ -35,24 +34,20 @@ namespace Hotels.Services
                 return null;
 
             return _mapper.Map<HotelExDTO>(hotel);
-
         }
 
         public HotelExDTO? GetHotelByReservationId(Guid id)
         {
-
             var hotel = _hotelRepository.GetHotelByReservationId(id);
 
             if (hotel is null)
                 return null;
 
             return  _mapper.Map<HotelExDTO>(hotel);
-
         }
 
         public HotelExDTO? GetHotelByRoomId(Guid id)
         {
-
             var hotel = _hotelRepository.GetHotelByRoomId(id);
 
             if (hotel is null)
@@ -85,7 +80,6 @@ namespace Hotels.Services
                 return null;
 
             return _mapper.Map<HotelDTO>(hotelData);
-
         }
 
         public void DeleteHotel(Guid id)

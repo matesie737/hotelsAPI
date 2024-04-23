@@ -58,7 +58,6 @@ namespace Hotels.Repositories
 
         public IQueryable<Room>? GetRoomsByHotelId(Guid hotelId)
         {
-
             var hotel = _context.Hotels.FirstOrDefault(h => h.Id == hotelId);
             if (hotel is null) return null;
 

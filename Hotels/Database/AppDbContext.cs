@@ -1,4 +1,3 @@
-
 using Hotels.Models;
 using Microsoft.EntityFrameworkCore;
 

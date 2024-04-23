@@ -53,18 +53,15 @@ namespace Hotels.Repositories
 
             var reservations = _context.Reservations.Where(r => r.HotelId == hotelId);
             return reservations;
-
         }
 
         public IQueryable<Reservation>? GetReservationsByRoomId(Guid roomId)
         {
-
             var room = _context.Rooms.FirstOrDefault(r => r.Id == roomId);
             if (room is null) return null;
 
             var reservations = _context.Reservations.Where(r => r.RoomId == roomId);
             return reservations;
-
         }
 
         public Reservation? UpdateReservation(Reservation reservation)
@@ -77,7 +74,6 @@ namespace Hotels.Repositories
 
             var reservationData = _context.Reservations.FirstOrDefault(r => r.Id == dbReservation.Id);
             return reservationData;
-
         }
     }
 }

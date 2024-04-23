@@ -25,7 +25,6 @@ namespace Hotels.Services
                 return null;
 
             return _mapper.Map<List<RoomDTO>>(rooms);
-
         }
 
         public RoomExDTO? GetRoom(Guid id)

@@ -1,6 +1,4 @@
-using AutoMapper;
 using Hotels.Enums;
-using Hotels.Models;
 
 namespace Hotels.DTOs
 {

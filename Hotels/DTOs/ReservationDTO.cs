@@ -1,6 +1,3 @@
-using AutoMapper;
-using Hotels.Models;
-
 namespace Hotels.DTOs
 {
     public class ReservationDTO

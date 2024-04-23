@@ -22,7 +22,6 @@ namespace Hotels.Repositories
             var HotelData = _context.Hotels.FirstOrDefault(h => h.Id == hotel.Id);
 
             return HotelData;
-
         }
 
         public void DeleteHotel(Guid id)
@@ -49,7 +48,6 @@ namespace Hotels.Repositories
 
             var hotel = _context.Hotels.Include(h => h.Rooms).Include(h => h.Reservations).FirstOrDefault(h => h.Id == reservation.HotelId);
             return hotel;
-
         }
 
         public Hotel? GetHotelByRoomId(Guid id)
@@ -60,7 +58,6 @@ namespace Hotels.Repositories
 
             var hotel = _context.Hotels.Include(h => h.Rooms).Include(h => h.Reservations).FirstOrDefault(h => h.Id == room.HotelId);
             return hotel;
-
         }
 
         public IQueryable<Hotel> GetHotels()
@@ -79,7 +76,6 @@ namespace Hotels.Repositories
 
             var hotelData = _context.Hotels.FirstOrDefault(h => h.Id == dbHotel.Id);
             return hotelData;
-
         }
     }
 }
