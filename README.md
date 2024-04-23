@@ -126,7 +126,7 @@ followed by
 $ dotnet restore
 ```
 
-in order to connect to database you need to create appsettingssecret.json file with following settings:
+in order to connect to database you need to create appsettings.Development.json file with following settings:
 
 ```
 {
@@ -142,6 +142,43 @@ to migrate database use
 $ dotnet ef migrations add initialMigration
 $ dotnet ef database update
 ```
+
+## Azure
+
+To use github action for Azure deployment you need to create Azure Web App with following settings:
+
+<br>
+
+| Name             | Value        | 
+|------------------|--------------|
+| Publish          | Code         | 
+| Runtime Stack    | .NET 8 (LTS) | 
+| Operating System | Windows      | 
+
+<br>
+After creating service use "Download Publish Profile" option in Overview section and add downloaded file content as Repository secret "API_PUBLISH_SECRET" as shown below:
+<br><br>
+
+![Adding Repository Secret](https://github.com/matesie737/hotelsAPI/assets/56255863/e75beb17-ba19-41bc-92de-72cdcc66de7b)
+
+<br>
+
+In order to connect Aplication to Databse create Azure ConnectionString in your service:
+
+**Environment variables → Connection String → Add Connection String → Enter value with name "WebApiDatabase" type "Custom" → Apply**
+<br><br>
+
+![Adding ConnectionString](https://github.com/matesie737/hotelsAPI/assets/56255863/d2ed67dc-253a-44ec-9925-708e7c53ca59)
+
+<br>
+
+Format of Connection String value is same as in local Connection String without double quotes
+
+```
+    Host=DBHost; Database=DBName; Username=username; Password=password
+```
+
+Finally restart your web application from Overview section. 
 
 
 
